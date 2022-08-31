@@ -18,6 +18,7 @@ function App() {
   };
 
   const insertHandler = (data) => {
+    console.log(data);
     setUsers([...Users, data]);
   };
 
@@ -35,6 +36,7 @@ function App() {
       deleteHandler={deleteHandler}
       updateHandler={updateHandler}
       close={closeBox}
+      users={Users}
     ></UserCard>
   ));
 
@@ -42,8 +44,8 @@ function App() {
     localStorage.setItem("users", JSON.stringify(Users));
   }, [Users]);
 
-  const updateItemHandler = () => {
-    console.log("ff");
+  const updateItemHandler = (data) => {
+    console.log(data);
   };
 
   return (
@@ -55,7 +57,7 @@ function App() {
             insertHandler={insertHandler}
             close={closeBox}
             update={updateHandler}
-            updateI={updateItemHandler}
+            updateCell={updateItemHandler}
           />
         </Lightbox>
       )}

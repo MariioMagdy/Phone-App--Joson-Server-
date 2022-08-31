@@ -4,16 +4,26 @@ import Userform from "../UserForm/Userform";
 import styles from "./UserCard.module.css";
 import { useState } from "react";
 
-const UserCard = ({ name, age, address, phone, deleteHandler, ...rest }) => {
+const UserCard = ({
+  name,
+  age,
+  address,
+  phone,
+  deleteHandler,
+  users,
+  ...rest
+}) => {
   const [toggleLightbox, setToggle] = useState(false);
+
   const deleteElement = (id) => {
     deleteHandler(id);
   };
+
   const closeBox = () => {
     setToggle(!toggleLightbox);
   };
 
-  const updateItem = () => {
+  const updateItem = (id) => {
     rest.updateHandler(name);
     setToggle(!toggleLightbox);
   };
@@ -42,6 +52,8 @@ const UserCard = ({ name, age, address, phone, deleteHandler, ...rest }) => {
             age={age}
             address={address}
             phone={phone}
+            updateItem={updateItem}
+            users={users}
           />
         </Lightbox>
       )}
