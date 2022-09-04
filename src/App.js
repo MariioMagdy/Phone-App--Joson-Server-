@@ -17,11 +17,30 @@ function App() {
     setUsers([...Users].filter((el) => el.id !== id));
   };
 
-  const insertHandler = (data) => {
-    console.log(data);
-    setUsers([...Users, data]);
+  const [selectedName, setSelectedName] = useState();
+
+  const getId = (payload) => {
+    switch (payload.type) {
+      case "delete":
+        deleteHandler(payload.id);
+        break;
+      case "edit":
+        selectUser(payload.id);
+        break;
+
+      default:
+        break;
+    }
   };
 
+  const selectUser = (id) => {
+    //get selected user
+    const selectedUser = Users.find((el) => el.id === id);
+    console.log(selectedUser);
+    setSelectedName(selectedUser);
+    console.log(selectedName);
+    setToggle(!toggleLightbox);
+  };
   const updateHandler = (id) => {
     return id;
   };
@@ -33,8 +52,7 @@ function App() {
     <UserCard
       {...el}
       key={el.id}
-      deleteHandler={deleteHandler}
-      updateHandler={updateHandler}
+      getId={getId}
       close={closeBox}
       users={Users}
     ></UserCard>
@@ -48,16 +66,37 @@ function App() {
     console.log(data);
   };
 
+  const userHandler = (data, type) => {
+    console.log(type);
+    if (type === "submit") {
+      return setUsers([...Users, data]);
+    } else {
+      setUsers(
+        Users.map((el) => {
+          if (el.id === data.id) {
+            return data;
+          } else {
+            return el;
+          }
+        })
+      );
+      console.log(Users);
+    }
+
+    console.log(data, type);
+    setSelectedName();
+  };
   return (
     <>
       <button onClick={() => setToggle(true)}>Add</button>
       {toggleLightbox && (
         <Lightbox close={closeBox}>
           <Userform
-            insertHandler={insertHandler}
+            userHandler={userHandler} //first
             close={closeBox}
             update={updateHandler}
             updateCell={updateItemHandler}
+            selectUser={selectedName}
           />
         </Lightbox>
       )}

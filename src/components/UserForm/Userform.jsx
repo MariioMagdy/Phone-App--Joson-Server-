@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Userform.module.css";
 import { useState } from "react";
 
-const Userform = ({ insertHandler, close, id, users }) => {
+const Userform = ({ userHandler, close, id, users, selectUser }) => {
+  // console.log(selectUser);
   const [userData, setUserData] = useState({
     id: Date.now(),
     name: "",
@@ -10,22 +11,31 @@ const Userform = ({ insertHandler, close, id, users }) => {
     address: "",
     phone: "",
   });
+  // const [name, setName] = useState("");
+  // const [age, setAge] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [phone, setPhone] = useState("");
 
-  console.log(users);
+  // console.log(selectUser);
+  useEffect(() => {
+    if (selectUser) {
+      setUserData({
+        id: selectUser.id,
+        name: selectUser.name,
+        age: selectUser.age,
+        address: selectUser.address,
+        phone: selectUser.phone,
+      });
+    }
+
+    // console.log(selectUser);
+  }, [selectUser]);
+
+  // console.log(users);
   const updateInput = (e) => {
     const inputKey = e.target.name;
     const inputValue = e.target.value;
-
-    if (id) {
-      const current = users.find((el) => id === el.id);
-      return setUserData({
-        ...current,
-        id: current.id,
-        [inputKey]: inputValue,
-      });
-    } else {
-      return setUserData({ ...userData, [inputKey]: inputValue });
-    }
+    return setUserData({ ...userData, [inputKey]: inputValue });
   };
 
   // const [getID, setnewDataID] = useState();
@@ -37,9 +47,16 @@ const Userform = ({ insertHandler, close, id, users }) => {
 
   const newData = (e) => {
     e.preventDefault();
-    insertHandler(userData);
+    const oprationType = selectUser ? "edit" : "submit";
+    if (selectUser) {
+      userHandler(userData, oprationType);
+      close();
+    } else {
+      userHandler(userData, oprationType, (userData.id = Date.now()));
+      close();
+    }
+
     console.log(userData);
-    close();
   };
 
   // const updateI = () => {
@@ -85,7 +102,7 @@ const Userform = ({ insertHandler, close, id, users }) => {
           value={userData.phone}
           onChange={updateInput}
         ></input>
-        <button type="submit">Submit</button>
+        <input type="submit" value={selectUser ? "Edit" : "Submit"}></input>
       </form>
     </>
   );
