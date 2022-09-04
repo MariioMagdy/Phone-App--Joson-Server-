@@ -1,4 +1,4 @@
-import "./App.css";
+import styles from "./App.module.css";
 import UserCard from "./components/UserCard/UserCard";
 import Layout from "./components/Layout/Layout";
 import { useEffect, useState } from "react";
@@ -46,6 +46,7 @@ function App() {
   };
   const closeBox = () => {
     setToggle(!toggleLightbox);
+    setSelectedName();
   };
 
   const UsersLoop = Users.map((el) => (
@@ -84,11 +85,15 @@ function App() {
     }
 
     console.log(data, type);
-    setSelectedName();
   };
   return (
     <>
-      <button onClick={() => setToggle(true)}>Add</button>
+      <div className={styles.search}>
+        <input type="text"></input>
+        <button className={styles.button} onClick={() => setToggle(true)}>
+          Add
+        </button>
+      </div>
       {toggleLightbox && (
         <Lightbox close={closeBox}>
           <Userform

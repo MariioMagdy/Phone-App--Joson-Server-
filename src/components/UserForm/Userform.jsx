@@ -26,8 +26,16 @@ const Userform = ({ userHandler, close, id, users, selectUser }) => {
         address: selectUser.address,
         phone: selectUser.phone,
       });
+      return () => {
+        setUserData({
+          id: "",
+          name: "",
+          age: "",
+          address: "",
+          phone: "",
+        });
+      };
     }
-
     // console.log(selectUser);
   }, [selectUser]);
 
