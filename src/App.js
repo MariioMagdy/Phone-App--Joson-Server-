@@ -17,6 +17,17 @@ function App() {
     setUsers([...Users].filter((el) => el.id !== id));
   };
 
+  // useEffect(() => {
+  //   fetch("http://localhost:3005/users")
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUsers(data);
+  //     });
+  // }, []);
+
   const [selectedName, setSelectedName] = useState();
 
   const getId = (payload) => {
@@ -89,6 +100,7 @@ function App() {
   return (
     <>
       <div className={styles.search}>
+        <h1>Phone Book</h1>
         <input type="text"></input>
         <button className={styles.button} onClick={() => setToggle(true)}>
           Add
